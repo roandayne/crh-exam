@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 function Dashboard() {
-  const [authenticated, setauthenticated] = useState(null);
   const [users, setUsers] = useState([])
   const navigate = useNavigate();
 
@@ -37,6 +36,15 @@ function Dashboard() {
     getUsers()
   }, [])
 
+  const handleLogout = async () => {
+    let resp = await fetch('/api/sessions/', { method: 'DELETE' })
+    resp = await fetch('/api/sessions/')
+
+    if(!resp.ok) {
+      navigate('/')
+    }
+  }
+
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
       {users && users.map(({name, username, phone, company}) => {
@@ -59,6 +67,8 @@ function Dashboard() {
           </Card>
         )
       })}
+
+      <Button variant="contained" onClick={handleLogout}>Log out</Button>
     </Box>
   )
 }
