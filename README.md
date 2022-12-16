@@ -5,4 +5,4 @@
 docker compose up
 docker compose run api rails db:setup
 ```
-3. Make sure https://localhost:5000 and https://localhost:3000 has no errors
+3. Make sure http://localhost:5000 and http://localhost:3000 has no errors
