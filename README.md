@@ -4,5 +4,6 @@
 ```
 docker compose up
 docker compose run api rails db:setup
+docker compose run api rails db:migrate
 ```
 3. Make sure http://localhost:5000 and http://localhost:3000 has no errors
