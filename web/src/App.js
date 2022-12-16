@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react'
 
-function App() {
+const App = () => {
+  useEffect(() => {
+    const testAuth = async () => {
+      // delete session
+      let resp = await fetch('/api/sessions/', { method: 'DELETE' })
+      console.log(await resp.json())
+      // test session. should be unauthenticated
+      resp = await fetch('/api/sessions/')
+      console.log(await resp.json())
+
+      // try to authenticate
+      resp = await fetch('/api/sessions/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: 'testuser',
+          password: 'password'
+        })
+      })
+      console.log(await resp.json())
+
+      // test session again. should be authenticated now
+      resp = await fetch('/api/sessions/')
+      console.log('wew', await resp.json())
+    }
+
+    testAuth()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <h1>Hello</h1>
+  )
 }
 
-export default App;
+export default App
