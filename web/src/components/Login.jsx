@@ -7,8 +7,10 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from "@mui/material/styles"
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate();
   const theme = useTheme()
   const [name, setName] = useState("")
   const [password, setPassword] = useState("")
@@ -28,21 +30,23 @@ export default function Login() {
       
     }
   }
-  
-  const handleSubmit = async () => {
-    console.log("waw")
-    resp = await fetch('/api/sessions/', {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const resp = await fetch('/api/sessions/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: name,
-        password: password
+        name,
+        password
       })
     })
-    console.log("wew", resp)
-    console.log(await resp.json())
+
+    if (resp.ok) {
+      navigate('/dashboard')
+    }
   }
 
   return (
